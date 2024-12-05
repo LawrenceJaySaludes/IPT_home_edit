@@ -38,37 +38,86 @@ body, html {
 /* Center the "How do you feel today?" title */
 .feel-today-title {
     text-align: center;
-    font-size: 24px;
+    font-size: 36px; /* Increased font size for emphasis */
     margin-top: 40px;
-    font-weight: bold;
+    font-weight: 700; /* Stronger weight */
+    color: #000000; /* More vibrant color */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Text shadow for depth */
+    padding: 10px 20px; /* Add padding for better spacing */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f0f0f0; /* Light background color */
+    display: inline-block; /* To fit the content */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    transition: all 0.3s ease-in-out;
 }
 
-/* Emotion Boxes */
+
+
+/* Emotion Section Container */
+.emotion-section {
+    background-color: #f8f8f8; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 40px 20px; /* Padding for spacing inside the container */
+    margin: 40px auto; /* Center the container */
+    width: 100%; /* Ensure it takes full width */
+    max-width: 1000px; /* Limit the maximum width */
+    text-align: center; /* Center-align the content */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Adjust emotion boxes to fit within the container */
 .emotion-boxes {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly; /* Evenly space the boxes */
     align-items: center;
-    gap: 30px;
-    margin-top: 30px;
+    flex-wrap: wrap; /* Allow wrapping for the boxes */
+    margin-top: 20px;
+    gap: 20px; /* Reduced gap between the boxes */
 }
 
-.emotion-box {
-    width: 160px;
-    height: 160px;
-    border-radius: 12px;
-    background-color: #766ec2;
+/* Emotion box container styles */
+.emotion-box-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
+    justify-content: space-between; /* Distribute evenly across the row */
+    gap: 20px; /* Adds space between the boxes */
+    margin-top: 20px; /* Adds space above the emotion boxes */
+    flex-wrap: nowrap;  /* Prevents the boxes from wrapping to a new row */
+}
+
+/* Individual emotion box styles */
+.emotion-box {
+    width: 100px;  /* Set the width to 150px */
+    height: 100px;  /* Set the height to 150px */
+    padding: 25px;  /* Adjust padding for spacing inside the box */
+    font-size: 40px;  /* Adjust font size for readability */
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #6a4cdb;  /* Emotion box background color */
+    color: white;
+    border-radius: 10px;  /* Slightly rounded corners */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .emotion-box:hover {
-    background-color: #8a62cc;
-    transform: scale(1.1);
+    transform: scale(1.05);  /* Slightly enlarge the box on hover */
 }
+
+/* Selected emotion box */
+.emotion-box.selected {
+    background-color: #8a62cc;  /* Selected emotion box background */
+    transform: scale(1.05);  /* Slightly enlarge the box when selected */
+}
+
+
+
+
 
 .emotion-box span {
     margin-top: 10px;
@@ -79,8 +128,8 @@ body, html {
 /* Progress Circle */
 .progress-circle-container {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     margin: 20px auto;
 }
 
@@ -104,8 +153,6 @@ body, html {
     border-radius: 50%;
     border: 10px solid transparent;
     background-color: transparent;
-    transform: rotate(-90deg);
-    z-index: 2;
     transition: background-color 0.3s ease;
 }
 
@@ -113,10 +160,13 @@ body, html {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
+    transform: translate(-50%, -50%); /* This should center the text */
+    font-size: 24px;
     font-weight: bold;
+    color: #000;
+    text-shadow: 1px 1px 2px black;
     z-index: 3;
+    line-height: 1.2; /* Adjust this to vertically align text */
 }
 
 /* Tasks Section */
@@ -133,9 +183,9 @@ body, html {
     display: flex;
     justify-content: center;
     gap: 20px; /* Add space between left and right task containers */
-    width: 800px; /* Increased width of the task container */
-    background-color: peachpuff; /* Updated background color */
-    padding: 30px; /* Increased padding */
+    width: 800px; /* Matches width of stress-energy tracker */
+    background-color: peachpuff;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex-direction: row;
@@ -145,7 +195,7 @@ body, html {
 .tasks-left, .tasks-right {
     display: flex;
     flex-direction: column;
-    width: 45%; /* Each container takes up 45% of the width */
+    width: 45%;
 }
 
 .task-item {
@@ -157,19 +207,43 @@ body, html {
     justify-content: space-between;
     align-items: center;
 }
+.tasks-caption {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Slight shadow for emphasis */
+}
 
 input[type="checkbox"] {
     cursor: pointer;
 }
 
 /* Stress & Energy Tracker */
-.stress-energy-tracker-container {
+.stress-energy-tracker-wrapper {
+    background-color: #766ec2; /* Same color as emotion boxes */
+    padding: 30px;
+    border-radius: 10px;
     margin-top: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 800px; /* Matches the width of the tasks container */
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
     text-align: center;
 }
 
-.slider-container {
-    margin: 20px 0;
+.stress-energy-tracker-container,
+.stress-energy-tracker-container * {
+    text-shadow: 1px 1px 2px black;
+}
+
+.slider-container label,
+.slider-container span,
+.advice-container p,
+.stress-energy-tracker-container h2 {
+    text-shadow: 1px 1px 2px black;
 }
 
 input[type="range"] {
@@ -180,21 +254,34 @@ input[type="range"] {
     font-size: 18px;
 }
 
+/* Satisfaction Question Popup */
 .satisfaction-question-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
     text-align: center;
-    padding: 20px;
-    background: #f0f0f0;
-    margin-top: 20px;
-    display: none;
+}
+
+.satisfaction-question-container h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 .satisfaction-question button {
-    margin: 10px;
-    padding: 10px;
-    background-color: #4caf50;
+    background-color: #4CAF50;
     color: white;
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
     cursor: pointer;
+    margin: 0 10px;
 }
 
 .satisfaction-question button:hover {
@@ -212,4 +299,14 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.bottom-message {
+    background-color: #d3d3d3; /* Light gray background */
+    padding: 20px;
+    text-align: center;
+    font-size: 14px; /* Small font size */
+    color: #333; /* Dark text color for contrast */
+    margin-top: 40px;
+    border-radius: 10px; /* Rounded corners */
 }
