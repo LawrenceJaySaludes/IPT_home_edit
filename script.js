@@ -19,9 +19,15 @@ const tasksData = {
     stressed: ["Take deep breaths", "Go for a walk", "Meditate", "Take a break", "Talk to someone you trust", "Listen to music", "Practice mindfulness", "Do a relaxing activity", "Drink water", "Do some stretches"]
 };
 
-// Show tasks and progress bar when an emotion is clicked
+// Add 'selected' class logic to emotion boxes
 emotionBoxes.forEach((box) => {
     box.addEventListener("click", () => {
+        // Remove 'selected' class from all emotion boxes
+        emotionBoxes.forEach(b => b.classList.remove('selected'));
+
+        // Add 'selected' class to the clicked emotion box
+        box.classList.add('selected');
+
         const emotion = box.dataset.emotion;
         
         // Show tasks and progress circle when emotion box is clicked
@@ -71,40 +77,55 @@ function updateProgressCircle() {
     progressText.textContent = `${Math.round(progress)}%`;
 }
 
-// Check if all tasks are checked and show satisfaction question
+// Function to check if all tasks are checked
 function checkTasksCompletion() {
-    const allChecked = Array.from(document.querySelectorAll(".task-checkbox")).every(checkbox => checkbox.checked);
+    const tasks = document.querySelectorAll('.task-item input[type="checkbox"]');
+    const allChecked = Array.from(tasks).every(task => task.checked);
+
     if (allChecked) {
-        satisfactionQuestionContainer.style.display = 'block'; // Show satisfaction question
-    } else {
-        satisfactionQuestionContainer.style.display = 'none'; // Hide satisfaction question
+        document.getElementById('satisfaction-question').style.display = 'block';
     }
 }
 
-// Update stress advice based on the stress level slider
+// Function to handle "Yes" button click
+document.getElementById('yes-button').addEventListener('click', () => {
+    alert('Great job! Keep it up! 🎉');
+    document.getElementById('satisfaction-question').style.display = 'none';
+});
+
+// Function to handle "No" button click
+document.getElementById('no-button').addEventListener('click', () => {
+    alert('No worries! Keep going, you can do it! 💪');
+    document.getElementById('satisfaction-question').style.display = 'none';
+});
+
+// Listen for task checkbox change and trigger the task completion check
+document.querySelectorAll('.task-item input[type="checkbox"]').forEach(input => {
+    input.addEventListener('change', checkTasksCompletion);
+});
+
 function updateStressAdvice() {
     const stressLevel = stressLevelSlider.value;
     stressValue.textContent = stressLevel;
 
     if (stressLevel <= 3) {
-        stressAdvice.textContent = "You are feeling relaxed. Keep it up!";
+        stressAdvice.textContent = "STRESS ADVICE - You are feeling relaxed. Keep it up!";
     } else if (stressLevel <= 7) {
-        stressAdvice.textContent = "You're a bit stressed. Try some relaxation techniques.";
+        stressAdvice.textContent = "STRESS ADVICE - You're a bit stressed. Try some relaxation techniques.";
     } else {
-        stressAdvice.textContent = "You're feeling stressed. Consider taking a break.";
+        stressAdvice.textContent = "STRESS ADVICE - You're feeling stressed. Consider taking a break.";
     }
 }
 
-// Update energy advice based on the energy level slider
 function updateEnergyAdvice() {
     const energyLevel = energyLevelSlider.value;
     energyValue.textContent = energyLevel;
 
     if (energyLevel <= 3) {
-        energyAdvice.textContent = "You have low energy. Consider resting.";
+        energyAdvice.textContent = "ENERGY ADVICE - You have low energy. Consider resting.";
     } else if (energyLevel <= 7) {
-        energyAdvice.textContent = "You're feeling somewhat energetic. Keep going!";
+        energyAdvice.textContent = "ENERGY ADVICE - You're feeling somewhat energetic. Keep going!";
     } else {
-        energyAdvice.textContent = "You're full of energy! Use it wisely.";
+        energyAdvice.textContent = "ENERGY ADVICE - You're full of energy! Use it wisely.";
     }
 }
