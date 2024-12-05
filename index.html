@@ -23,9 +23,9 @@
         </header>
 
         <!-- How do you feel today -->
+                <!-- Emotion Boxes -->
+        <div class="emotion-section">
         <h2 class="feel-today-title">How do you feel today?</h2>
-
-        <!-- Emotion Boxes -->
         <div class="emotion-boxes">
             <div class="emotion-box" data-emotion="happy">😊<span>Happy</span></div>
             <div class="emotion-box" data-emotion="sad">😢<span>Sad</span></div>
@@ -34,6 +34,7 @@
             <div class="emotion-box" data-emotion="depressed">😞<span>Depressed</span></div>
             <div class="emotion-box" data-emotion="stressed">😤<span>Stressed</span></div>
         </div>
+    </div>
 
         <!-- Progress Circle (Initially hidden) -->
         <div class="progress-circle-container" style="display: none;">
@@ -44,6 +45,7 @@
 
         <!-- Tasks Section (Initially hidden) -->
         <div class="tasks-section" style="display: none;">
+            <h2 class="tasks-caption">Tasks</h2>
             <div class="tasks-container">
                 <div class="tasks-left">
                     <div class="task-item">
@@ -84,33 +86,40 @@
         </div>
 
         <!-- Stress & Energy Tracker -->
-        <div class="stress-energy-tracker-container">
-            <h2>Stress & Energy Level Tracker</h2>
-            <div class="slider-container">
-                <label for="stress-level">How stressed are you? (1-10)</label>
-                <input type="range" id="stress-level" min="1" max="10" value="5" oninput="updateStressAdvice()">
-                <span id="stress-value">5</span>
-            </div>
-            <div class="slider-container">
-                <label for="energy-level">How energetic are you? (1-10)</label>
-                <input type="range" id="energy-level" min="1" max="10" value="5" oninput="updateEnergyAdvice()">
-                <span id="energy-value">5</span>
-            </div>
-            <div class="advice-container">
-                <p id="stress-advice"></p>
-                <p id="energy-advice"></p>
+        <div class="stress-energy-tracker-wrapper">
+            <div class="stress-energy-tracker-container">
+                <h2>Stress & Energy Level Tracker</h2>
+                <div class="slider-container">
+                    <label for="stress-level">How stressed are you? (1-10)</label>
+                    <input type="range" id="stress-level" min="1" max="10" value="5" oninput="updateStressAdvice()">
+                    <span id="stress-value">5</span>
+                </div>
+                <div class="slider-container">
+                    <label for="energy-level">How energetic are you? (1-10)</label>
+                    <input type="range" id="energy-level" min="1" max="10" value="5" oninput="updateEnergyAdvice()">
+                    <span id="energy-value">5</span>
+                </div>
+                <div class="advice-container">
+                    <p id="stress-advice"></p>
+                    <p id="energy-advice"></p>
+                </div>
             </div>
         </div>
+        
 
         <!-- Satisfaction Question -->
-        <div class="satisfaction-question-container" style="display:none;">
+        <div class="satisfaction-question-container" id="satisfaction-question">
+            <h2>Are you satisfied with the tasks completed?</h2>
             <div class="satisfaction-question">
-                <p>Are you satisfied with the tasks completed?</p>
-                <button id="yes-btn">Yes</button>
-                <button id="no-btn">No</button>
-                <p id="satisfaction-response"></p>
+                <button id="yes-button">Yes</button>
+                <button id="no-button">No</button>
             </div>
         </div>
+        
+        <div class="bottom-message">
+            Hope we make you feel better :)
+        </div>
+        
     </section>
 
     <script src="script.js"></script>
