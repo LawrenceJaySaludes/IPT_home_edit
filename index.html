@@ -22,6 +22,27 @@
             </div>
         </header>
 
+           <!-- Stress & Energy Tracker -->
+           <div class="stress-energy-tracker-wrapper">
+            <div class="stress-energy-tracker-container">
+                <h2>Stress & Energy Level Tracker</h2>
+                <div class="slider-container">
+                    <label for="stress-level">How stressed are you? (1-10)</label>
+                    <input type="range" id="stress-level" min="1" max="10" value="5" oninput="updateStressAdvice()">
+                    <span id="stress-value">5</span>
+                </div>
+                <div class="slider-container">
+                    <label for="energy-level">How energetic are you? (1-10)</label>
+                    <input type="range" id="energy-level" min="1" max="10" value="5" oninput="updateEnergyAdvice()">
+                    <span id="energy-value">5</span>
+                </div>
+                <div class="advice-container">
+                    <p id="stress-advice"></p>
+                    <p id="energy-advice"></p>
+                </div>
+            </div>
+        </div>
+
         <!-- How do you feel today -->
                 <!-- Emotion Boxes -->
         <div class="emotion-section">
@@ -45,7 +66,7 @@
 
         <!-- Tasks Section (Initially hidden) -->
         <div class="tasks-section" style="display: none;">
-            <h2 class="tasks-caption">Tasks</h2>
+            <h2 class="tasks-caption">Things to Do</h2>
             <div class="tasks-container">
                 <div class="tasks-left">
                     <div class="task-item">
@@ -85,27 +106,7 @@
             </div>
         </div>
 
-        <!-- Stress & Energy Tracker -->
-        <div class="stress-energy-tracker-wrapper">
-            <div class="stress-energy-tracker-container">
-                <h2>Stress & Energy Level Tracker</h2>
-                <div class="slider-container">
-                    <label for="stress-level">How stressed are you? (1-10)</label>
-                    <input type="range" id="stress-level" min="1" max="10" value="5" oninput="updateStressAdvice()">
-                    <span id="stress-value">5</span>
-                </div>
-                <div class="slider-container">
-                    <label for="energy-level">How energetic are you? (1-10)</label>
-                    <input type="range" id="energy-level" min="1" max="10" value="5" oninput="updateEnergyAdvice()">
-                    <span id="energy-value">5</span>
-                </div>
-                <div class="advice-container">
-                    <p id="stress-advice"></p>
-                    <p id="energy-advice"></p>
-                </div>
-            </div>
-        </div>
-        
+     
 
         <!-- Satisfaction Question -->
         <div class="satisfaction-question-container" id="satisfaction-question">
@@ -114,6 +115,9 @@
                 <button id="yes-button">Yes</button>
                 <button id="no-button">No</button>
             </div>
+        </div>
+        <div class="cheer-up-message" style="display: none;">
+            <h2>Remember, you're amazing and loved! Keep smiling 😊</h2>
         </div>
         
         <div class="bottom-message">
