@@ -29,33 +29,47 @@ emotionBoxes.forEach((box) => {
         box.classList.add('selected');
 
         const emotion = box.dataset.emotion;
-        
-        // Show tasks and progress circle when emotion box is clicked
-        tasksSection.style.display = 'block'; // Show tasks section
-        progressCircleContainer.style.display = 'block'; // Show progress circle
 
-        // Clear previous tasks
-        const tasksContainer = tasksSection.querySelector(".tasks-container");
-        tasksContainer.innerHTML = `<div class="tasks-left"></div><div class="tasks-right"></div>`;
+        // Ask the user if they want to explore tasks for the selected emotion
+        const shouldShowTasks = confirm(`Would you like to explore Activities for feeling ${emotion}?`);
 
-        const tasksLeft = tasksContainer.querySelector(".tasks-left");
-        const tasksRight = tasksContainer.querySelector(".tasks-right");
-
-        tasksData[emotion].forEach((task, index) => {
-            const taskItem = document.createElement("div");
-            taskItem.classList.add("task-item");
-            taskItem.innerHTML = `${task} <input type="checkbox" class="task-checkbox">`;
-            if (index < 5) {
-                tasksLeft.appendChild(taskItem);
-            } else {
-                tasksRight.appendChild(taskItem);
-            }
-        });
-
-        updateProgressCircle(); // Update the progress bar initially
-        checkTasksCompletion(); // Check if all tasks are checked
+        if (shouldShowTasks) {
+            showTasks(emotion);
+        } else {
+            // Hide tasks and progress circle if Cancel is clicked
+            tasksSection.style.display = 'none';
+            progressCircleContainer.style.display = 'none';
+            alert("No worries! Let's keep going with other things to explore!");
+        }
     });
 });
+
+// Function to display tasks based on selected emotion
+function showTasks(emotion) {
+    tasksSection.style.display = 'block';
+    progressCircleContainer.style.display = 'block';
+
+    const tasksContainer = tasksSection.querySelector(".tasks-container");
+    tasksContainer.innerHTML = `<div class="tasks-left"></div><div class="tasks-right"></div>`;
+
+    const tasksLeft = tasksContainer.querySelector(".tasks-left");
+    const tasksRight = tasksContainer.querySelector(".tasks-right");
+
+    tasksData[emotion].forEach((task, index) => {
+        const taskItem = document.createElement("div");
+        taskItem.classList.add("task-item");
+        taskItem.innerHTML = `${task} <input type="checkbox" class="task-checkbox">`;
+
+        if (index < 5) {
+            tasksLeft.appendChild(taskItem);
+        } else {
+            tasksRight.appendChild(taskItem);
+        }
+    });
+
+    updateProgressCircle();
+    checkTasksCompletion();
+}
 
 // Update progress when task checkboxes are changed
 tasksSection.addEventListener('change', (event) => {
@@ -104,6 +118,7 @@ document.querySelectorAll('.task-item input[type="checkbox"]').forEach(input => 
     input.addEventListener('change', checkTasksCompletion);
 });
 
+// Function to update stress advice based on slider value
 function updateStressAdvice() {
     const stressLevel = stressLevelSlider.value;
     stressValue.textContent = stressLevel;
@@ -117,6 +132,7 @@ function updateStressAdvice() {
     }
 }
 
+// Function to update energy advice based on slider valuef
 function updateEnergyAdvice() {
     const energyLevel = energyLevelSlider.value;
     energyValue.textContent = energyLevel;
