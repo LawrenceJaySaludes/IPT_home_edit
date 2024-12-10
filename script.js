@@ -1,14 +1,13 @@
 const emotionBoxes = document.querySelectorAll(".emotion-box");
 const tasksSection = document.querySelector(".tasks-section");
 const progressCircleContainer = document.querySelector(".progress-circle-container");
-const satisfactionQuestionContainer = document.querySelector(".satisfaction-question-container");
-const taskCheckboxes = document.querySelectorAll(".task-checkbox");
 const stressLevelSlider = document.getElementById("stress-level");
 const energyLevelSlider = document.getElementById("energy-level");
 const stressValue = document.getElementById("stress-value");
 const energyValue = document.getElementById("energy-value");
 const stressAdvice = document.getElementById("stress-advice");
 const energyAdvice = document.getElementById("energy-advice");
+
 
 const tasksData = {
     happy: ["Take a walk", "Listen to music", "Call a friend", "Do something creative", "Watch a funny show", "Exercise", "Meditate", "Eat something healthy", "Practice gratitude", "Read a book"],
@@ -19,36 +18,40 @@ const tasksData = {
     stressed: ["Take deep breaths", "Go for a walk", "Meditate", "Take a break", "Talk to someone you trust", "Listen to music", "Practice mindfulness", "Do a relaxing activity", "Drink water", "Do some stretches"]
 };
 
-// Add 'selected' class logic to emotion boxes
+// Variable to track if the satisfaction question has already been shown for the selected emotion category
+let satisfactionShown = false;
+
 emotionBoxes.forEach((box) => {
     box.addEventListener("click", () => {
+        const emotion = box.dataset.emotion;
+        
+        // Show the consent popup asking if they want to explore tasks for the selected emotion
+        document.getElementById('popup').style.display = 'block'; // Show the popup
+        document.getElementById('emotion-name').textContent = emotion; // Set emotion name in the popup
+        
         // Remove 'selected' class from all emotion boxes
         emotionBoxes.forEach(b => b.classList.remove('selected'));
-
+        
         // Add 'selected' class to the clicked emotion box
         box.classList.add('selected');
-
-        const emotion = box.dataset.emotion;
-
-        // Ask the user if they want to explore tasks for the selected emotion
-        const shouldShowTasks = confirm(`Would you like to explore Activities for feeling ${emotion}?`);
-
-        if (shouldShowTasks) {
-            showTasks(emotion);
-        } else {
-            // Hide tasks and progress circle if Cancel is clicked
-            tasksSection.style.display = 'none';
-            progressCircleContainer.style.display = 'none';
-            alert("No worries! Let's keep going with other things to explore!");
-        }
     });
 });
 
-// Function to display tasks based on selected emotion
-function showTasks(emotion) {
+// Handle Yes Button for consent popup
+document.getElementById("yes-btn").onclick = function() {
+    // Show the tasks section and progress circle
     tasksSection.style.display = 'block';
     progressCircleContainer.style.display = 'block';
 
+    // Hide the consent popup
+    document.getElementById("popup").style.display = "none";
+    
+    // Reset the satisfactionShown flag when a new emotion is selected
+    satisfactionShown = false;
+
+    const emotion = document.getElementById('emotion-name').textContent;
+    
+    // Clear previous tasks
     const tasksContainer = tasksSection.querySelector(".tasks-container");
     tasksContainer.innerHTML = `<div class="tasks-left"></div><div class="tasks-right"></div>`;
 
@@ -59,7 +62,6 @@ function showTasks(emotion) {
         const taskItem = document.createElement("div");
         taskItem.classList.add("task-item");
         taskItem.innerHTML = `${task} <input type="checkbox" class="task-checkbox">`;
-
         if (index < 5) {
             tasksLeft.appendChild(taskItem);
         } else {
@@ -67,9 +69,28 @@ function showTasks(emotion) {
         }
     });
 
-    updateProgressCircle();
-    checkTasksCompletion();
-}
+    updateProgressCircle(); // Update the progress bar initially
+    checkTasksCompletion(); // Check if all tasks are checked
+    
+     // Scroll to the tasks section automatically
+    window.scrollTo({
+        top: tasksSection.offsetTop,  // Scroll to the top position of the tasks section
+        behavior: 'smooth'  // Smooth scrolling
+    });
+};
+
+// Handle No Button for consent popup
+document.getElementById("no-btn").onclick = function() {
+    // Hide the consent popup
+    document.getElementById("popup").style.display = "none";
+    
+    // Hide the tasks section and progress circle
+    tasksSection.style.display = 'none';
+    progressCircleContainer.style.display = 'none';
+    
+    // Show the cheer-up message
+    document.getElementById("cheer-up-message").style.display = "block";
+};
 
 // Update progress when task checkboxes are changed
 tasksSection.addEventListener('change', (event) => {
@@ -96,29 +117,38 @@ function checkTasksCompletion() {
     const tasks = document.querySelectorAll('.task-item input[type="checkbox"]');
     const allChecked = Array.from(tasks).every(task => task.checked);
 
-    if (allChecked) {
+    // Show satisfaction question if any task is checked and satisfaction has not been shown yet
+    if (!satisfactionShown && Array.from(tasks).some(task => task.checked)) {
         document.getElementById('satisfaction-question').style.display = 'block';
+    }
+
+    if (allChecked) {
+        document.getElementById('satisfaction-question').style.display = 'block'; // Keep the question if all tasks are checked
     }
 }
 
-// Function to handle "Yes" button click
+// Function to handle "Yes" button in satisfaction question
 document.getElementById('yes-button').addEventListener('click', () => {
+    const progressCircle = document.querySelector(".progress-circle");
+    const progressText = document.querySelector(".progress-circle-text");
+
+    // Set progress to 100%
+    progressCircle.style.background = `conic-gradient(#4caf50 100%, #ddd 0%)`;
+    progressText.textContent = `100%`;
+
     alert('Great job! Keep it up! 🎉');
-    document.getElementById('satisfaction-question').style.display = 'none';
+    document.getElementById('satisfaction-question').style.display = 'none'; // Hide question after "Yes"
+    satisfactionShown = true; // Mark the satisfaction question as shown for the current emotion
 });
 
-// Function to handle "No" button click
+// Function to handle "No" button in satisfaction question
 document.getElementById('no-button').addEventListener('click', () => {
     alert('No worries! Keep going, you can do it! 💪');
-    document.getElementById('satisfaction-question').style.display = 'none';
+    document.getElementById('satisfaction-question').style.display = 'none'; // Hide question after "No"
+    satisfactionShown = false; // Mark the satisfaction question as shown for the current emotion
 });
 
-// Listen for task checkbox change and trigger the task completion check
-document.querySelectorAll('.task-item input[type="checkbox"]').forEach(input => {
-    input.addEventListener('change', checkTasksCompletion);
-});
-
-// Function to update stress advice based on slider value
+// Function to update stress advice
 function updateStressAdvice() {
     const stressLevel = stressLevelSlider.value;
     stressValue.textContent = stressLevel;
@@ -132,7 +162,7 @@ function updateStressAdvice() {
     }
 }
 
-// Function to update energy advice based on slider valuef
+// Function to update energy advice
 function updateEnergyAdvice() {
     const energyLevel = energyLevelSlider.value;
     energyValue.textContent = energyLevel;
